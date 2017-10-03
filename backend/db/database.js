@@ -10,6 +10,6 @@ learndb.on('error', console.error.bind(console, 'db:line7:Kai needs to fix somet
 learndb.once('open', function() {
   console.log('Nice job connecting to the server Kai');
 })
-mongoose.connect('mongodb://test:test@ds139904.mlab.com:39904/eagles');
+mongoose.connect('mongodb://c:stars@ds161574.mlab.com:61574/learn_legacy');
 
 module.exports = learndb;

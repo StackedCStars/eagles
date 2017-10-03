@@ -27,7 +27,7 @@ app.use(bodyparser.json());
 // set cookie for auth
 app.use(session({
   secret: 'super secret',
-  cookie: { 
+  cookie: {
     maxAge: 6000000,
     secure: false,
     httpOnly: false
@@ -55,7 +55,7 @@ app.all('/lesson', lessonRoutes);
 app.all('/lesson/*', lessonRoutes);
 app.all('/query', utilRoutes);
 
-// redirect any uncaught routes 
+// redirect any uncaught routes
 app.use((req, res) => {
   res.redirect('/');
 });
