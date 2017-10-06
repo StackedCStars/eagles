@@ -42,7 +42,8 @@ let quizSchema = new Schema({
   questions: [String],
   answers: [String],
   relatedSlides: [String],
-  lessonRef: String
+  lessonRef: String,
+  mcTypes: [String]
 })
 let Quiz = mongoose.model('Quiz', quizSchema);
 

@@ -7,15 +7,18 @@ const Quiz = schema.Quiz;
 router.post('/quiz', (req, res) => {
   let quizCode = req.body.quizCode;
   let questions = req.body.questions;
-  let answers = req.body.answers;
+  let answers = JSON.stringify(req.body.answers);
+  console.log(answers, 'gu')
   let relatedSlides = req.body.relatedSlides;
   let lessonRef = req.body.lessonRef;
+  let mcTypes = req.body.mcTypes;
   Quiz.create({
     quizCode,
     questions,
     answers,
     relatedSlides,
-    lessonRef
+    lessonRef,
+    mcTypes
   })
   .then((quiz) => {
     res.status(201).send(`Quiz successfully saved to database ${quiz}`);
@@ -25,4 +28,15 @@ router.post('/quiz', (req, res) => {
   })
 })
 
+router.get('/quiz', (req, res) => {
+  let quizCode = req.query.quizCode || 5750;
+  console.log('called')
+  Quiz.find({quizCode})
+  .then((quiz) => {
+    res.status(200).send(quiz);
+  })
+  .catch((err) => {
+    res.status(404).send(err);
+  })
+})
 module.exports = router;

@@ -14,7 +14,8 @@ class Quiz extends React.Component {
       relatedSlides: [''],
       currentQindex: 0,
       qforms: [1],
-      quizCode: null
+      quizCode: null,
+      mcTypes: ['']
     }
     this.addMore = this.addMore.bind(this);
     this.generateCode = this.generateCode.bind(this);
@@ -31,7 +32,7 @@ class Quiz extends React.Component {
     })
   }
   
-  saveQuestion(q, sA, mcA, slides) {
+  saveQuestion(q, sA, mcA, slides, mc) {
     let forms = this.state.qforms;
     let qs = this.state.quizQuestions;
     qs.push(q);
@@ -39,10 +40,13 @@ class Quiz extends React.Component {
     sA.length ? as.push(sA) : as.push(mcA);
     let rs = this.state.relatedSlides;
     rs.push(slides);
+    let mcTypes = this.state.mcTypes;
+    mcTypes.push(mc);
     this.setState({
       quizQuestions: qs,
       answers: as,
-      relatedSlides: rs
+      relatedSlides: rs,
+      mcTypes: mcTypes
     })
   }
   
@@ -50,15 +54,17 @@ class Quiz extends React.Component {
     let code = Math.floor((Math.random() * 9999) + 1000 )
     let questions = this.state.quizQuestions;
     let answers = this.state.answers;
+    console.log('here is the', answers);
     let relatedSlides = this.state.relatedSlides;
     let lessonRef = this.props.lessonRef;
+    let mcTypes = this.state.mcTypes;
     this.setState({
       quizCode: code
     }, () => {
       let quizCode = this.state.quizCode;
-      axios.post('/quiz', {questions, answers, relatedSlides, quizCode, lessonRef})
+      axios.post('/quiz', {questions, answers, relatedSlides, quizCode, lessonRef, mcTypes })
         .then((response) => {
-          console.log(response.data);
+          console.log(response.data, 'answerdata');
         })
         .catch((error) => {
           console.error('error here', error);

@@ -70,7 +70,7 @@ class Question extends React.Component {
 
   noMultipleChoice() {
     this.setState({
-      mcType: null,
+      mcType: false,
       answerCount: 0,
       mcAnswers: []
     });
@@ -110,10 +110,12 @@ class Question extends React.Component {
     let sA = this.state.shortAnswer;
     let mcA = this.state.mcAnswers;
     let slides = this.state.relatedSlides;
+    let mc = this.state.mcType;
+    console.log('questionform ', mc)
     this.setState({
       disabled: 'disabled'
     })
-    this.props.onSave(q, sA, mcA, slides);
+    this.props.onSave(q, sA, mcA, slides, mc);
   }
 
   render() {
