@@ -2,7 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Button, Jumbotron, FormControl, FormGroup, ControlLabel } from 'react-bootstrap';
-import QuestionView from './Question.js';
+import StudentQuiz from './Question.js';
+import TeacherQuiz from './TeacherQuiz.js';
+import Results from './ResultsQuiz.js';
 
 class QuizView extends React.Component {
   constructor(props) {
@@ -12,9 +14,11 @@ class QuizView extends React.Component {
       answers: null,
       relatedSlides: null,
       lessonRef: null,
-      complete: false,
-      mcTypes: null
+      results: false,
+      mcTypes: null,
+      studentAnswers: ['']
     }
+    this.saveAnswer = this.saveAnswer.bind(this);
   }
 
   componentDidMount() {
@@ -32,8 +36,6 @@ class QuizView extends React.Component {
           relatedSlides: response.data[0].relatedSlides,
           lessonRef: response.data[0].lessonRef,
           mcTypes: response.data[0].mcTypes
-        }, () => {
-          console.log('hiiii', this.state)
         })
       })
       .catch((err) => {
@@ -41,21 +43,54 @@ class QuizView extends React.Component {
       })
   }
 
+  saveAnswer(studentAnswers) {
+    console.log(studentAnswers)
+    let answered = this.state.studentAnswers;
+    console.log('here', answered)
+    answered.push(studentAnswers);
+    this.setState({ studentAnswers: answered }, () => {
+      console.log('hiiii', this.state.studentAnswers)
+    })
+  }
+
   render() {
     return (
       <div className="student-question">
         <Jumbotron>
-          {this.state.questions && !this.state.complete ? 
-            this.state.questions.map((question, index) => {
-              return (
-                <QuestionView key={index}
-                  question={question} 
-                  answer={this.state.answers[index]}
-                  relatedSlides={this.state.answers[index]}
-                  mcType={this.state.mcTypes[index]}
-                />
-              )
-            }) : <div></div>
+          {this.state.questions && !this.state.results ? 
+            <div>
+              {this.state.questions.map((question, index) => {
+                return (this.props.role === 'teacher' ? 
+                (
+                  <TeacherQuiz key={index}
+                    question={question} 
+                    answer={this.state.answers[index]}
+                    relatedSlides={this.state.relatedSlides[index]}
+                    mcType={this.state.mcTypes[index]}
+                  />
+                ) :
+                (
+                  <StudentQuiz key={index}
+                    question={question} 
+                    answer={this.state.answers[index]}
+                    relatedSlides={this.state.relatedSlides[index]}
+                    mcType={this.state.mcTypes[index]}
+                    saveAnswer={this.saveAnswer}
+                  />
+              ))
+            })} <h1> </h1> <Button onClick={() => this.setState({results: true})}>I'm Done!</Button>
+            </div> : this.state.results ? 
+              this.state.questions.map((question, index) => {
+                return (
+                  <Results key={index}
+                    question={question} 
+                    answer={this.state.answers[index]}
+                    relatedSlides={this.state.relatedSlides[index]}
+                    mcType={this.state.mcTypes[index]}
+                    student={this.state.studentAnswers[index]}
+                  />
+                )}
+              ) : <div></div>
           }
         </Jumbotron>
       </div>

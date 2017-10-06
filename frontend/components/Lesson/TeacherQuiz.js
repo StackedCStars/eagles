@@ -2,49 +2,37 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Button, Jumbotron, FormControl, FormGroup, ControlLabel, Radio, Checkbox } from 'react-bootstrap';
-import Results from './ResultsQuiz.js';
 
-class QuestionView extends React.Component {
+class TeacherQuiz extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       question: null, 
       answer: null,
       relatedSlides: null,
-      mcType: null,
-      studentAnswers: undefined,
-      results: false
+      mcType: null
     }
-    this.answerChange = this.answerChange.bind(this);
-  }
-
-  answerChange(e) {
-    let answers = this.state.studentAnswers;
-    let val = e.target.value;
-    let temp = [];
-    if (this.state.mcType !== "false" && answers) {
-      answers = `${answers}, ${val}`
-    } else {
-      answers = val;
-    }
-    this.setState({
-      studentAnswers: answers
-    })
   }
 
   componentWillMount() {
     var answer;
+    // console.log(this.props)
     if (this.props.question.length) {
       if (this.props.mcType === false) {
         answer = this.props.answer;
       } else {
         answer = this.props.answer
+        console.log(answer, 'answerrrr')
       }
+      console.log(this.props.mcType, 'here is mcTyoe')
       this.setState({
         question: this.props.question,
         answer: answer,
         relatedSlides: this.props.relatedSlides,
         mcType: this.props.mcType
+      }, () => {
+        console.log(this.state.answer, 'where')
+
       })
     }
   }
@@ -59,13 +47,7 @@ class QuestionView extends React.Component {
           {this.state.mcType === "false" ? 
             <FormGroup controlId="formControlsShortAnswer">
               <ControlLabel>Short Answer</ControlLabel>
-              <FormControl 
-                componentClass="textarea" 
-                placeholder="Type your answer here" 
-                value={this.state.studentAnswer}
-                onChange={this.answerChange}
-              />
-              <Button onClick={() => this.props.saveAnswer(this.state.studentAnswers)}>Submit Answer</Button>
+              <FormControl componentClass="textarea" placeholder={this.state.answer} disabled/>
             </FormGroup> : 
             <div>
               <FormGroup controlId="formControlsMultipleChoice">
@@ -73,7 +55,7 @@ class QuestionView extends React.Component {
                   this.state.answer.map((answer, index) => {
                     if (answer.answer) {
                       return (
-                        <Checkbox key={index} value={answer.answer} onChange={this.answerChange}>{answer.answer}</Checkbox>
+                        <Checkbox disabled key={index}>{`Answer: ${answer.answer} : ${answer.correctness}`}</Checkbox>
                       )
                     }
                   })
@@ -81,21 +63,18 @@ class QuestionView extends React.Component {
                   this.state.answer.map((answer, index) => {
                     if (answer.answer) {
                       return (
-                        <Radio key={index} value={answer.answer} onChange={this.answerChange}>{answer.answer}</Radio>
+                        <Radio disabled key={index}>{`Answer: ${answer.answer} : ${answer.correctness}`}</Radio>
                       )
                     }
                   })
               } 
               </FormGroup>
-              <div>
-                <Button onClick={() => this.props.saveAnswer(this.state.studentAnswers)}>Submit Answer</Button>
-              </div>
             </div>
-          } </div> : <div></div> 
+          } </div> : <div></div>
         }
       </div>
     ) 
   }
 }
 
-export default QuestionView;
+export default TeacherQuiz;
