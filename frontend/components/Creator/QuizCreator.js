@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { Button } from 'react-bootstrap';
+import { Button, Panel } from 'react-bootstrap';
 import Question from './QuestionForm.js';
 
 class Quiz extends React.Component {
@@ -80,7 +80,7 @@ class Quiz extends React.Component {
         {this.state.qforms.map((forms, index) => {
           return (
             <div key={index} className="question-border">
-              <Question key={index*10} onSave={this.saveQuestion}/>
+                <Question key={index*10} onSave={this.saveQuestion}/>
             </div>
           )
         })}

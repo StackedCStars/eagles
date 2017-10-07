@@ -71,7 +71,7 @@ class Results extends React.Component {
                   this.state.answer.map((answer, index) => {
                     if (answer.answer) {
                       return (
-                        <Checkbox disabled key={index} value={answer.correctness} onChange={this.answerChange}>{`Answer: ${answer.answer} : ${answer.correctness}`}</Checkbox>
+                        <Checkbox disabled key={index} value={answer.correctness} onChange={this.answerChange}>{`Answer: ${answer.answer} :   `}<strong>{`${answer.correctness}`}</strong></Checkbox>
                       )
                     }
                   })
@@ -79,7 +79,7 @@ class Results extends React.Component {
                   this.state.answer.map((answer, index) => {
                     if (answer.answer) {
                       return (
-                        <Radio disabled key={index} value={answer.correctness} onChange={this.answerChange}>{`Answer: ${answer.answer} : ${answer.correctness}`}</Radio>
+                        <Radio disabled key={index} value={answer.correctness} onChange={this.answerChange}>{`Answer: ${answer.answer} :   `}<strong>{`${answer.correctness}`}</strong></Radio>
                       )
                     }
                   })

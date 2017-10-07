@@ -42,6 +42,8 @@ app.use(session({
 // public file with static routes
 app.use(express.static('../frontend/public'));
 
+// app.use(express.static(__dirname + 'frontend/public'));
+//add path.join dirname
 // -------------------AUTH------------------------- //
 app.get('/logout', checkAuth.logout);
 app.post('/users', checkAuth.createAccount);
@@ -84,5 +86,8 @@ app.use((req, res) => {
   res.redirect('/');
 });
 
+app.get('*', function(req, res) {
+  res.status(404).send();
+})
 // server listens for requests
 app.listen(process.env.PORT || 3000);

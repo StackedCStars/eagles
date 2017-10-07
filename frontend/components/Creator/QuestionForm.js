@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, FormGroup, ControlLabel, FormControl, Checkbox, Radio, Button } from 'react-bootstrap';
+import { Panel, Form, FormGroup, ControlLabel, FormControl, Checkbox, Radio, Button } from 'react-bootstrap';
 import MultipleChoice from './MultipleChoice.js';
 
 class Question extends React.Component {
@@ -14,7 +14,8 @@ class Question extends React.Component {
       mcType: false,
       answerCount: 0,
       type: null,
-      disabled: ''
+      disabled: '',
+      open: true,
     }
 
     this.questionChange = this.questionChange.bind(this);
@@ -122,6 +123,8 @@ class Question extends React.Component {
     return (
       //div currentQindex
       <div className={this.state.currentQindex}>
+        <Button onClick={ () => this.setState({ open: !this.state.open })}>{this.state.open ? "Collapse" : "Expand"}</Button>
+        <Panel collapsible expanded={this.state.open} >
         <Form>
           <FormGroup controlId="formControlsQuestion">
             <ControlLabel>Question</ControlLabel>
@@ -178,6 +181,7 @@ class Question extends React.Component {
           </FormGroup>
           <Button onClick={this.saveQuestionForm} >Save Question</Button>
         </Form>
+        </Panel>
       </div>
     )
   }

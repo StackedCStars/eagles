@@ -44,13 +44,9 @@ class QuizView extends React.Component {
   }
 
   saveAnswer(studentAnswers) {
-    console.log(studentAnswers)
     let answered = this.state.studentAnswers;
-    console.log('here', answered)
     answered.push(studentAnswers);
-    this.setState({ studentAnswers: answered }, () => {
-      console.log('hiiii', this.state.studentAnswers)
-    })
+    this.setState({ studentAnswers: answered });
   }
 
   render() {
